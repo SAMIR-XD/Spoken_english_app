@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Spoken Partner | বাংলা–ইংরেজি সেতু</title>
+
+<!-- PWA: installable app metadata -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#12181f">
+<meta name="background_color" content="#12181f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Spoken Partner">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Baloo+Da+2:wght@600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;500;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12181f;
+    --surface:#1b232c;
+    --surface2:#232d38;
+    --border:#2c3641;
+    --gold:#e3a545;
+    --gold-soft:#e3a54522;
+    --teal:#49b3a7;
+    --teal-soft:#49b3a722;
+    --text:#f1ede4;
+    --muted:#8b98a5;
+    --danger:#e3745c;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #1a2432 0%, transparent 60%),
+      radial-gradient(1000px 500px at 110% 10%, #1e2a2a 0%, transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Hind Siliguri','Fraunces',sans-serif;
+    min-height:100vh;
+    padding-bottom:40px;
+  }
+  .en{font-family:'Fraunces', serif;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+
+  header.top{
+    padding:22px 18px 14px;
+    text-align:center;
+    position:relative;
+  }
+  header.top .brand{
+    font-family:'Amiri', 'Baloo Da 2', 'Hind Siliguri', serif;
+    font-weight:700;
+    font-size:22px;
+    letter-spacing:0.3px;
+    direction:rtl;
+    unicode-bidi:isolate;
+    background:linear-gradient(90deg, var(--gold), var(--teal));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    line-height:1.6;
+  }
+  header.top .tag{
+    color:var(--muted);
+    font-family:'Amiri', 'Hind Siliguri', serif;
+    font-size:15px;
+    direction:rtl;
+    unicode-bidi:isolate;
+    margin-top:6px;
+    line-height:1.7;
+  }
+  .bridge{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    margin:14px auto 0;
+    max-width:260px;
+  }
+  .bridge span{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:14px;
+    padding:4px 10px;
+    border-radius:999px;
+  }
+  .bridge .bn-chip{background:var(--gold-soft); color:var(--gold); border:1px solid #e3a54555;}
+  .bridge .en-chip{background:var(--teal-soft); color:var(--teal); border:1px solid #49b3a755;}
+  .bridge .line{
+    flex:1;
+    height:1px;
+    background:repeating-linear-gradient(90deg, var(--muted) 0 4px, transparent 4px 8px);
+    position:relative;
+  }
+  .bridge .line::after{
+    content:"→";
+    position:absolute;
+    right:-2px; top:-10px;
+    color:var(--muted);
+    font-size:14px;
+  }
+
+  .credit{
+    margin:18px auto 0;
+    max-width:340px;
+    padding:10px 14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+    background:linear-gradient(180deg, #1e2731, #1a222b);
+    border:1px solid var(--border);
+    border-radius:999px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.25) inset, 0 1px 0 rgba(255,255,255,0.02);
+  }
+  .credit-label{
+    font-size:12.5px;
+    color:var(--muted);
+    display:flex;
+    align-items:center;
+    gap:6px;
+    white-space:nowrap;
+  }
+  .credit-label strong{
+    color:var(--text);
+    font-weight:700;
+    background:linear-gradient(90deg, var(--gold), var(--teal));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .credit-dot{
+    width:6px; height:6px;
+    border-radius:50%;
+    background:var(--teal);
+    box-shadow:0 0 0 3px var(--teal-soft);
+    flex:none;
+  }
+  .credit-links{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .credit-link{
+    width:28px; height:28px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#f1ede4;
+    background:var(--surface2);
+    border:1px solid var(--border);
+    transition:transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+    text-decoration:none;
+  }
+  .credit-link:active{ transform:scale(0.92); }
+  .credit-link.wa:hover, .credit-link.wa:active{ background:#25D366; border-color:#25D366; box-shadow:0 0 0 3px #25d36633; }
+  .credit-link.fb:hover, .credit-link.fb:active{ background:#1877F2; border-color:#1877F2; box-shadow:0 0 0 3px #1877f233; }
+  .credit-link.gh:hover, .credit-link.gh:active{ background:#f1ede4; color:#1b232c; border-color:#f1ede4; box-shadow:0 0 0 3px rgba(241,237,228,0.2); }
+  .credit-link.tg:hover, .credit-link.tg:active{ background:#26A5E4; border-color:#26A5E4; box-shadow:0 0 0 3px #26a5e433; }
+
+  @media (max-width:360px){
+    .credit{ padding:9px 10px; gap:8px; }
+    .credit-label{ font-size:11.5px; }
+  }
+
+  .install-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    margin:14px auto 0;
+    max-width:340px;
+    width:calc(100% - 32px);
+    padding:11px 16px;
+    background:linear-gradient(135deg, var(--gold), var(--teal));
+    color:#12181f;
+    border:none;
+    border-radius:999px;
+    font-family:'Hind Siliguri',sans-serif;
+    font-size:14.5px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 6px 18px -6px #49b3a766;
+    transition:transform .1s ease;
+  }
+  .install-btn:active{ transform:scale(0.97); }
+  .install-btn[hidden]{ display:none; }
+
+  nav.tabs{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+    max-width:560px;
+    margin:20px auto 0;
+    padding:0 16px;
+  }
+  nav.tabs button{
+    background:var(--surface);
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:12px 8px;
+    border-radius:12px;
+    font-family:'Hind Siliguri',sans-serif;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .15s ease;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    line-height:1.25;
+  }
+  nav.tabs button .ico{font-size:18px;}
+  nav.tabs button.active{
+    color:var(--bg);
+    background:linear-gradient(135deg, var(--gold), #f0c47a);
+    border-color:transparent;
+    box-shadow:0 4px 14px -4px #e3a54588;
+  }
+  nav.tabs button:nth-child(2).active,
+  nav.tabs button:nth-child(4).active{
+    background:linear-gradient(135deg, var(--teal), #7fd6cb);
+    box-shadow:0 4px 14px -4px #49b3a788;
+  }
+
+  main{
+    max-width:560px;
+    margin:18px auto 0;
+    padding:0 16px;
+  }
+  .panel{display:none;}
+  .panel.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;}}
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:16px;
+    margin-bottom:14px;
+  }
+  .card h2{
+    margin:0 0 10px;
+    font-size:16px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  label.small{
+    font-size:12px;
+    color:var(--muted);
+    display:block;
+    margin-bottom:6px;
+  }
+  textarea, input[type=text]{
+    width:100%;
+    background:var(--surface2);
+    border:1px solid var(--border);
+    color:var(--text);
+    border-radius:10px;
+    padding:12px;
+    font-family:inherit;
+    font-size:15px;
+    resize:vertical;
+    min-height:88px;
+  }
+  input[type=text]{min-height:auto;}
+  textarea:focus, input[type=text]:focus{
+    outline:none;
+    border-color:var(--gold);
+  }
+  .row{display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;}
+  button.action{
+    flex:1;
+    min-width:120px;
+    background:linear-gradient(135deg, var(--gold), #f0c47a);
+    color:#231705;
+    border:none;
+    padding:12px 14px;
+    border-radius:10px;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    font-family:'Hind Siliguri',sans-serif;
+    transition:transform .1s ease;
+  }
+  button.action.teal{background:linear-gradient(135deg, var(--teal), #7fd6cb); color:#062522;}
+  button.action:active{transform:scale(0.97);}
+  button.ghost{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:12px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-family:'Hind Siliguri',sans-serif;
+    font-size:14px;
+  }
+  .result{
+    margin-top:12px;
+    background:var(--surface2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:14px;
+    font-size:16px;
+    line-height:1.6;
+    min-height:24px;
+    white-space:pre-wrap;
+  }
+  .result.empty{color:var(--muted); font-size:13px;}
+  .result.error{color:var(--danger); font-size:13px;}
+  .hint{font-size:12px; color:var(--muted); margin-top:8px;}
+  .loading{color:var(--muted); font-size:13px;}
+  .loading::after{content:"…"; animation:dots 1s steps(4,end) infinite;}
+  @keyframes dots{0%,20%{content:".";}40%{content:"..";}60%,100%{content:"...";}}
+
+  /* Sentence analyzer */
+  .word-chip{
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+    background:var(--surface2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:8px 10px;
+    margin:4px;
+    min-width:64px;
+  }
+  .word-chip .w{font-family:'Fraunces',serif; font-weight:600; font-size:15px;}
+  .word-chip .pos{font-size:10.5px; margin-top:3px; padding:1px 7px; border-radius:999px;}
+  .word-chip .meaning{font-size:11px; color:var(--muted); margin-top:3px;}
+  .pos-pronoun{background:#e3a54522;color:var(--gold);}
+  .pos-verb{background:#e3745c22;color:var(--danger);}
+  .pos-aux{background:#49b3a722;color:var(--teal);}
+  .pos-noun{background:#8b98a522;color:#c7d0d8;}
+  .pos-adj{background:#c9a4ec22;color:#c9a4ec;}
+  .pos-adv{background:#f0c47a22;color:#f0c47a;}
+  .pos-prep{background:#7fd6cb22;color:#7fd6cb;}
+  .pos-conj{background:#ffffff14;color:var(--muted);}
+  .pos-art{background:#ffffff0d;color:var(--muted);}
+  .wordwrap{display:flex; flex-wrap:wrap;}
+  .structure-line{
+    display:flex; justify-content:space-between; padding:8px 0;
+    border-bottom:1px dashed var(--border); font-size:14px;
+  }
+  .structure-line:last-child{border-bottom:none;}
+  .structure-line b{color:var(--gold);}
+  .tense-badge{
+    display:inline-block; background:var(--teal-soft); color:var(--teal);
+    padding:5px 12px; border-radius:999px; font-size:13px; font-weight:600;
+  }
+
+  /* Verb table */
+  .verb-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;
+  }
+  .verb-head .en-word{font-family:'Fraunces',serif; font-size:22px; font-weight:600;}
+  .verb-head .meaning{color:var(--muted); font-size:14px;}
+  .verb-table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0 6px;
+    margin-top:12px;
+  }
+  .verb-table td{
+    padding:10px 12px;
+    background:var(--surface2);
+    font-size:14px;
+  }
+  .verb-table tr td:first-child{
+    border-radius:10px 0 0 10px;
+    color:var(--muted);
+    font-size:12px;
+    width:40%;
+  }
+  .verb-table tr td:last-child{
+    border-radius:0 10px 10px 0;
+  }
+  .verb-table .form{font-family:'Fraunces',serif; font-weight:600; font-size:15px; color:var(--text);}
+  .verb-table .pron{font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--gold); display:block; margin-top:2px;}
+  .tag-regular{background:var(--teal-soft); color:var(--teal); padding:2px 10px; border-radius:999px; font-size:11px; font-weight:600;}
+  .tag-irregular{background:#e3745c22; color:var(--danger); padding:2px 10px; border-radius:999px; font-size:11px; font-weight:600;}
+
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:11.5px;
+    margin-top:26px;
+    padding:0 20px;
+    line-height:1.6;
+  }
+  footer a{color:var(--teal);}
+
+  @media (max-width:380px){
+    nav.tabs button{font-size:12.5px; padding:10px 6px;}
+    .verb-head .en-word{font-size:19px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+  <div class="tag">السَّلَامُ عَلَيْكُمْ يَا أَخِي الطَّالِبُ</div>
+  <div class="bridge">
+    <span class="bn-chip">বাংলা</span>
+    <span class="line"></span>
+    <span class="en-chip en">English</span>
+  </div>
+
+  <div class="credit">
+    <div class="credit-label">
+      <span class="credit-dot"></span>
+      Created by <strong>Junaid Sami</strong>
+    </div>
+    <div class="credit-links">
+      <a class="credit-link wa" href="https://wa.me/8801918090729" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp-এ যোগাযোগ করুন" title="WhatsApp">
+        <svg viewBox="0 0 32 32" width="16" height="16" fill="currentColor"><path d="M16.02 3C9.4 3 4 8.37 4 15c0 2.27.62 4.39 1.71 6.21L4 29l7.98-1.66A11.9 11.9 0 0 0 16.02 27C22.65 27 28 21.63 28 15S22.65 3 16.02 3zm0 21.8c-1.97 0-3.8-.55-5.37-1.5l-.38-.23-4.32.9.92-4.2-.25-.4A9.7 9.7 0 0 1 5.22 15c0-5.94 4.86-10.8 10.8-10.8S26.8 9.06 26.8 15 21.96 24.8 16.02 24.8zm5.98-8.13c-.33-.16-1.93-.95-2.23-1.06-.3-.11-.52-.16-.74.16-.22.33-.85 1.06-1.04 1.27-.19.22-.38.24-.71.08-.33-.16-1.4-.51-2.66-1.63-.98-.87-1.65-1.95-1.84-2.28-.19-.33-.02-.5.14-.67.15-.15.33-.38.5-.57.16-.19.22-.33.33-.55.11-.22.05-.41-.03-.57-.08-.16-.74-1.77-1.01-2.42-.27-.64-.54-.55-.74-.56h-.63c-.22 0-.57.08-.87.4-.3.33-1.14 1.11-1.14 2.71 0 1.6 1.17 3.14 1.33 3.36.16.22 2.3 3.51 5.58 4.92.78.34 1.39.54 1.87.69.79.25 1.5.21 2.07.13.63-.09 1.93-.79 2.2-1.55.27-.76.27-1.41.19-1.55-.08-.13-.3-.21-.63-.37z"/></svg>
+      </a>
+      <a class="credit-link fb" href="https://www.facebook.com/61576412756346/" target="_blank" rel="noopener noreferrer" aria-label="Facebook-এ যোগাযোগ করুন" title="Facebook">
+        <svg viewBox="0 0 32 32" width="16" height="16" fill="currentColor"><path d="M28 16.05C28 9.4 22.63 4 16 4S4 9.4 4 16.05c0 6 4.39 10.98 10.13 11.87v-8.4h-3.05v-3.47h3.05v-2.64c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.96h-1.51c-1.49 0-1.95.93-1.95 1.89v2.24h3.32l-.53 3.47h-2.79v8.4C23.61 27.03 28 22.05 28 16.05z"/></svg>
+      </a>
+      <a class="credit-link gh" href="https://github.com/samir-xd" target="_blank" rel="noopener noreferrer" aria-label="GitHub-এ দেখুন" title="GitHub">
+        <svg viewBox="0 0 32 32" width="16" height="16" fill="currentColor"><path d="M16 4C9.37 4 4 9.39 4 16.05c0 5.32 3.44 9.83 8.21 11.42.6.11.82-.26.82-.58 0-.29-.01-1.24-.02-2.25-3.34.73-4.04-1.42-4.04-1.42-.55-1.4-1.34-1.77-1.34-1.77-1.09-.75.08-.73.08-.73 1.21.09 1.85 1.24 1.85 1.24 1.07 1.85 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.34-5.47-5.94 0-1.31.47-2.39 1.24-3.23-.12-.31-.54-1.54.12-3.2 0 0 1.01-.32 3.3 1.24a11.4 11.4 0 0 1 6.01 0c2.29-1.56 3.3-1.24 3.3-1.24.66 1.66.24 2.89.12 3.2.77.84 1.24 1.92 1.24 3.23 0 4.61-2.81 5.63-5.49 5.93.43.37.81 1.1.81 2.22 0 1.6-.01 2.89-.01 3.29 0 .32.21.7.83.58C24.57 25.87 28 21.36 28 16.05 28 9.39 22.63 4 16 4z"/></svg>
+      </a>
+      <a class="credit-link tg" href="https://t.me/junaed_sami" target="_blank" rel="noopener noreferrer" aria-label="Telegram-এ যোগাযোগ করুন" title="Telegram">
+        <svg viewBox="0 0 32 32" width="16" height="16" fill="currentColor"><path d="M28.5 5.3 3.9 14.9c-1.5.6-1.5 1.4-.27 1.78l6.3 1.97 2.44 7.4c.29.8.5 1.13 1 1.13.4 0 .58-.18.8-.4l3.1-3 6.44 4.75c1.18.65 2.03.31 2.32-1.1l4.2-19.8c.42-1.75-.66-2.54-1.79-2.34zM11.6 18.5l12.8-8.07c.6-.36 1.15-.17.7.23L14.06 20.6l-.4 4.5-1.94-6.6z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <button id="installBtn" class="install-btn" type="button" hidden>
+    <span class="ico">⬇️</span> অ্যাপ ইনস্টল করুন
+  </button>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="bn2en"><span class="ico">✍️</span>বাংলা → English</button>
+  <button class="tab-btn" data-tab="en2bn"><span class="ico">🔁</span>English → বাংলা</button>
+  <button class="tab-btn" data-tab="structure"><span class="ico">🧩</span>বাক্য তারকিব</button>
+  <button class="tab-btn" data-tab="verb"><span class="ico">📖</span>Verb Table</button>
+</nav>
+
+<main>
+
+  <!-- BN -> EN -->
+  <section class="panel active" id="panel-bn2en">
+    <div class="card">
+      <h2>🇧🇩 বাংলা লিখুন → 🇬🇧 ইংরেজি পাবেন</h2>
+      <label class="small">যা বলতে চান, বাংলায় লিখুন</label>
+      <textarea id="bnInput" placeholder="যেমনঃ আমি প্রতিদিন সকালে হাঁটতে যাই"></textarea>
+      <div class="row">
+        <button class="action" onclick="doTranslate('bnInput','bn','en','bn2enResult')">Translate করুন</button>
+        <button class="ghost" onclick="clearBox('bnInput','bn2enResult')">Clear</button>
+      </div>
+      <div class="result empty" id="bn2enResult">এখানে ইংরেজি অনুবাদ দেখাবে।</div>
+      <div class="hint">ইন্টারনেট সংযোগ লাগবে — অনুবাদ আসে MyMemory Translation API থেকে।</div>
+    </div>
+  </section>
+
+  <!-- EN -> BN -->
+  <section class="panel" id="panel-en2bn">
+    <div class="card">
+      <h2>🇬🇧 ইংরেজি লিখুন → 🇧🇩 বাংলা পাবেন</h2>
+      <label class="small">ইংরেজি বাক্য বা শব্দ লিখুন</label>
+      <textarea id="enInput" placeholder="e.g. I go for a walk every morning"></textarea>
+      <div class="row">
+        <button class="action teal" onclick="doTranslate('enInput','en','bn','en2bnResult')">Translate করুন</button>
+        <button class="ghost" onclick="clearBox('enInput','en2bnResult')">Clear</button>
+      </div>
+      <div class="result empty" id="en2bnResult">এখানে বাংলা অনুবাদ দেখাবে।</div>
+      <div class="hint">ইন্টারনেট সংযোগ লাগবে — অনুবাদ আসে MyMemory Translation API থেকে।</div>
+    </div>
+  </section>
+
+  <!-- Structure / Tarkib -->
+  <section class="panel" id="panel-structure">
+    <div class="card">
+      <h2>🧩 বাক্যের গঠন / তারকিব</h2>
+      <label class="small">যেকোনো ইংরেজি বাক্য লিখুন — দেখুন কিভাবে গঠিত হয়েছে</label>
+      <textarea id="structInput" placeholder="e.g. She has been working here since 2020"></textarea>
+      <div class="row">
+        <button class="action" onclick="analyzeAndRender()">বিশ্লেষণ করুন</button>
+        <button class="ghost" onclick="clearBox('structInput','structResult')">Clear</button>
+      </div>
+      <div class="result empty" id="structResult">এখানে বাক্যের গঠন দেখাবে।</div>
+      <div class="hint">এটি একটি সরল, নিয়মভিত্তিক বিশ্লেষণ — সম্পূর্ণ ব্যাকরণ ইঞ্জিন নয়, তবে গঠন বুঝতে সাহায্য করবে।</div>
+    </div>
+  </section>
+
+  <!-- Verb table -->
+  <section class="panel" id="panel-verb">
+    <div class="card">
+      <h2>📖 Verb এর সব রূপ দেখুন</h2>
+      <label class="small">বাংলা অর্থ (যেমনঃ যাওয়া) অথবা ইংরেজি verb (যেমনঃ go) লিখুন</label>
+      <input type="text" id="verbInput" placeholder="যাওয়া অথবা go">
+      <div class="row">
+        <button class="action teal" onclick="lookupVerb()">খুঁজুন</button>
+        <button class="ghost" onclick="clearBox('verbInput','verbResult')">Clear</button>
+      </div>
+      <div class="result empty" id="verbResult">এখানে verb-এর সব রূপ ও উচ্চারণ দেখাবে।</div>
+      <div class="hint">Irregular verb হলে সঠিক রূপ ডেটাবেস থেকে আসবে। Regular verb হলে নিয়ম অনুযায়ী স্বয়ংক্রিয়ভাবে তৈরি হবে (উচ্চারণ আনুমানিক)।</div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  তৈরি হয়েছে বাংলাভাষী শিক্ষার্থীদের জন্য।<br>
+  অনুবাদ সোর্স: MyMemory Translation API · উচ্চারণ ও verb ডেটা: ১২৭+ irregular verb–এর নিজস্ব তালিকা
+</footer>
+
+<script>
+/* ---------------------------------------------------------
+   TAB SWITCHING
+--------------------------------------------------------- */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+function clearBox(inputId, resultId){
+  document.getElementById(inputId).value='';
+  const r=document.getElementById(resultId);
+  r.textContent='';
+  r.className='result empty';
+  r.textContent='ফলাফল এখানে দেখাবে।';
+}
+
+/* ---------------------------------------------------------
+   TRANSLATION  (MyMemory API)
+--------------------------------------------------------- */
+async function translateText(text, from, to){
+  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`;
+  const res = await fetch(url);
+  if(!res.ok) throw new Error('network');
+  const data = await res.json();
+  if(!data || !data.responseData) throw new Error('empty');
+  return data.responseData.translatedText;
+}
+
+async function doTranslate(inputId, from, to, resultId){
+  const text = document.getElementById(inputId).value.trim();
+  const box = document.getElementById(resultId);
+  if(!text){
+    box.className='result error';
+    box.textContent='আগে কিছু লিখুন।';
+    return;
+  }
+  box.className='result loading';
+  box.textContent='অনুবাদ হচ্ছে';
+  try{
+    const translated = await translateText(text, from, to);
+    box.className='result';
+    box.textContent = translated;
+  }catch(e){
+    box.className='result error';
+    box.textContent='অনুবাদ আনা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।';
+  }
+}
+
+/* ---------------------------------------------------------
+   IRREGULAR VERB DATABASE
+   { v1,v2,v3, meaning, p1,p2,p3, ing,ping, s,ps }
+--------------------------------------------------------- */
+const IRREGULAR_VERBS = [
+["be","was/were","been","হওয়া","বি","ওয়াজ/ওয়্যার","বিন","being","বিয়িং","is/am/are","ইজ/এম/আর"],
+["become","became","become","হয়ে ওঠা","বিকাম","বিকেইম","বিকাম","becoming","বিকামিং","becomes","বিকামজ"],
+["begin","began","begun","শুরু করা","বিগিন","বিগ্যান","বিগান","beginning","বিগিনিং","begins","বিগিনজ"],
+["break","broke","broken","ভাঙা","ব্রেক","ব্রোক","ব্রোকেন","breaking","ব্রেকিং","breaks","ব্রেকস"],
+["bring","brought","brought","আনা","ব্রিং","ব্রট","ব্রট","bringing","ব্রিংগিং","brings","ব্রিংস"],
+["build","built","built","তৈরি করা","বিল্ড","বিল্ট","বিল্ট","building","বিল্ডিং","builds","বিল্ডস"],
+["buy","bought","bought","কেনা","বাই","বট","বট","buying","বায়িং","buys","বায়জ"],
+["catch","caught","caught","ধরা","ক্যাচ","কট","কট","catching","ক্যাচিং","catches","ক্যাচেজ"],
+["choose","chose","chosen","বেছে নেওয়া","চুজ","চোজ","চোজেন","choosing","চুজিং","chooses","চুজেজ"],
+["come","came","come","আসা","কাম","কেইম","কাম","coming","কামিং","comes","কামজ"],
+["cost","cost","cost","দাম হওয়া","কস্ট","কস্ট","কস্ট","costing","কস্টিং","costs","কস্টস"],
+["cut","cut","cut","কাটা","কাট","কাট","কাট","cutting","কাটিং","cuts","কাটস"],
+["do","did","done","করা","ডু","ডিড","ডান","doing","ডুয়িং","does","ডাজ"],
+["draw","drew","drawn","আঁকা","ড্র","ড্রু","ড্রন","drawing","ড্রয়িং","draws","ড্রজ"],
+["drink","drank","drunk","পান করা","ড্রিংক","ড্র্যাংক","ড্রাংক","drinking","ড্রিংকিং","drinks","ড্রিংকস"],
+["drive","drove","driven","গাড়ি চালানো","ড্রাইভ","ড্রোভ","ড্রিভেন","driving","ড্রাইভিং","drives","ড্রাইভস"],
+["eat","ate","eaten","খাওয়া","ইট","এট","ইটেন","eating","ইটিং","eats","ইটস"],
+["fall","fell","fallen","পড়ে যাওয়া","ফল","ফেল","ফলেন","falling","ফলিং","falls","ফলস"],
+["feel","felt","felt","অনুভব করা","ফিল","ফেল্ট","ফেল্ট","feeling","ফিলিং","feels","ফিলস"],
+["fight","fought","fought","লড়াই করা","ফাইট","ফট","ফট","fighting","ফাইটিং","fights","ফাইটস"],
+["find","found","found","খুঁজে পাওয়া","ফাইন্ড","ফাউন্ড","ফাউন্ড","finding","ফাইন্ডিং","finds","ফাইন্ডস"],
+["fly","flew","flown","ওড়া","ফ্লাই","ফ্লু","ফ্লোন","flying","ফ্লাইয়িং","flies","ফ্লাইজ"],
+["forget","forgot","forgotten","ভুলে যাওয়া","ফরগেট","ফরগট","ফরগটেন","forgetting","ফরগেটিং","forgets","ফরগেটস"],
+["forgive","forgave","forgiven","ক্ষমা করা","ফরগিভ","ফরগেইভ","ফরগিভেন","forgiving","ফরগিভিং","forgives","ফরগিভস"],
+["freeze","froze","frozen","জমে যাওয়া","ফ্রিজ","ফ্রোজ","ফ্রোজেন","freezing","ফ্রিজিং","freezes","ফ্রিজেজ"],
+["get","got","gotten","পাওয়া","গেট","গট","গটেন","getting","গেটিং","gets","গেটস"],
+["give","gave","given","দেওয়া","গিভ","গেইভ","গিভেন","giving","গিভিং","gives","গিভস"],
+["go","went","gone","যাওয়া","গো","ওয়েন্ট","গন","going","গোয়িং","goes","গোজ"],
+["grow","grew","grown","বেড়ে ওঠা","গ্রো","গ্রু","গ্রোন","growing","গ্রোয়িং","grows","গ্রোজ"],
+["have","had","had","থাকা / পাওয়া","হ্যাভ","হ্যাড","হ্যাড","having","হ্যাভিং","has","হ্যাজ"],
+["hear","heard","heard","শোনা","হিয়ার","হার্ড","হার্ড","hearing","হিয়ারিং","hears","হিয়ারস"],
+["hide","hid","hidden","লুকানো","হাইড","হিড","হিডেন","hiding","হাইডিং","hides","হাইডস"],
+["hit","hit","hit","আঘাত করা","হিট","হিট","হিট","hitting","হিটিং","hits","হিটস"],
+["hold","held","held","ধরে রাখা","হোল্ড","হেল্ড","হেল্ড","holding","হোল্ডিং","holds","হোল্ডস"],
+["hurt","hurt","hurt","আঘাত / ব্যথা দেওয়া","হার্ট","হার্ট","হার্ট","hurting","হার্টিং","hurts","হার্টস"],
+["keep","kept","kept","রাখা","কিপ","কেপ্ট","কেপ্ট","keeping","কিপিং","keeps","কিপস"],
+["know","knew","known","জানা","নো","নিউ","নোন","knowing","নোয়িং","knows","নোজ"],
+["lay","laid","laid","রাখা / শোয়ানো","লে","লেইড","লেইড","laying","লেয়িং","lays","লেজ"],
+["lead","led","led","নেতৃত্ব দেওয়া","লিড","লেড","লেড","leading","লিডিং","leads","লিডস"],
+["leave","left","left","ছেড়ে যাওয়া","লিভ","লেফট","লেফট","leaving","লিভিং","leaves","লিভজ"],
+["lend","lent","lent","ধার দেওয়া","লেন্ড","লেন্ট","লেন্ট","lending","লেন্ডিং","lends","লেন্ডস"],
+["let","let","let","করতে দেওয়া","লেট","লেট","লেট","letting","লেটিং","lets","লেটস"],
+["lie","lay","lain","শুয়ে থাকা","লাই","লে","লেইন","lying","লায়িং","lies","লাইজ"],
+["lose","lost","lost","হারানো","লুজ","লস্ট","লস্ট","losing","লুজিং","loses","লুজেজ"],
+["make","made","made","তৈরি করা","মেক","মেইড","মেইড","making","মেকিং","makes","মেকস"],
+["mean","meant","meant","বোঝানো","মিন","মেন্ট","মেন্ট","meaning","মিনিং","means","মিনস"],
+["meet","met","met","দেখা করা","মিট","মেট","মেট","meeting","মিটিং","meets","মিটস"],
+["pay","paid","paid","টাকা দেওয়া","পে","পেইড","পেইড","paying","পেয়িং","pays","পেজ"],
+["put","put","put","রাখা","পুট","পুট","পুট","putting","পুটিং","puts","পুটস"],
+["read","read","read","পড়া","রিড","রেড","রেড","reading","রিডিং","reads","রিডস"],
+["ride","rode","ridden","চড়া","রাইড","রোড","রিডেন","riding","রাইডিং","rides","রাইডস"],
+["ring","rang","rung","বাজা / বাজানো","রিং","র‍্যাং","রাং","ringing","রিংগিং","rings","রিংস"],
+["rise","rose","risen","ওঠা","রাইজ","রোজ","রিজেন","rising","রাইজিং","rises","রাইজেজ"],
+["run","ran","run","দৌড়ানো","রান","র‍্যান","রান","running","রানিং","runs","রানস"],
+["say","said","said","বলা","সে","সেড","সেড","saying","সেয়িং","says","সেজ"],
+["see","saw","seen","দেখা","সি","স","সিন","seeing","সিয়িং","sees","সিজ"],
+["sell","sold","sold","বিক্রি করা","সেল","সোল্ড","সোল্ড","selling","সেলিং","sells","সেলস"],
+["send","sent","sent","পাঠানো","সেন্ড","সেন্ট","সেন্ট","sending","সেন্ডিং","sends","সেন্ডস"],
+["set","set","set","স্থাপন করা","সেট","সেট","সেট","setting","সেটিং","sets","সেটস"],
+["shake","shook","shaken","কাঁপানো","শেক","শুক","শেকেন","shaking","শেকিং","shakes","শেকস"],
+["shine","shone","shone","চমকানো","শাইন","শোন","শোন","shining","শাইনিং","shines","শাইনস"],
+["shoot","shot","shot","গুলি করা","শুট","শট","শট","shooting","শুটিং","shoots","শুটস"],
+["show","showed","shown","দেখানো","শো","শোড","শোন","showing","শোয়িং","shows","শোজ"],
+["shut","shut","shut","বন্ধ করা","শাট","শাট","শাট","shutting","শাটিং","shuts","শাটস"],
+["sing","sang","sung","গান গাওয়া","সিং","স্যাং","সাং","singing","সিংগিং","sings","সিংস"],
+["sink","sank","sunk","ডুবে যাওয়া","সিংক","স্যাংক","সাংক","sinking","সিংকিং","sinks","সিংকস"],
+["sit","sat","sat","বসা","সিট","স্যাট","স্যাট","sitting","সিটিং","sits","সিটস"],
+["sleep","slept","slept","ঘুমানো","স্লিপ","স্লেপ্ট","স্লেপ্ট","sleeping","স্লিপিং","sleeps","স্লিপস"],
+["speak","spoke","spoken","কথা বলা","স্পিক","স্পোক","স্পোকেন","speaking","স্পিকিং","speaks","স্পিকস"],
+["spend","spent","spent","খরচ করা","স্পেন্ড","স্পেন্ট","স্পেন্ট","spending","স্পেন্ডিং","spends","স্পেন্ডস"],
+["stand","stood","stood","দাঁড়ানো","স্ট্যান্ড","স্টুড","স্টুড","standing","স্ট্যান্ডিং","stands","স্ট্যান্ডস"],
+["steal","stole","stolen","চুরি করা","স্টিল","স্টোল","স্টোলেন","stealing","স্টিলিং","steals","স্টিলস"],
+["swim","swam","swum","সাঁতার কাটা","সুইম","সোয়াম","সোয়াম","swimming","সুইমিং","swims","সুইমস"],
+["take","took","taken","নেওয়া","টেক","টুক","টেকেন","taking","টেকিং","takes","টেকস"],
+["teach","taught","taught","শেখানো","টিচ","টট","টট","teaching","টিচিং","teaches","টিচেজ"],
+["tear","tore","torn","ছেঁড়া","টেয়ার","টোর","টর্ন","tearing","টেয়ারিং","tears","টেয়ারস"],
+["tell","told","told","বলা","টেল","টোল্ড","টোল্ড","telling","টেলিং","tells","টেলস"],
+["think","thought","thought","চিন্তা করা","থিংক","থট","থট","thinking","থিংকিং","thinks","থিংকস"],
+["throw","threw","thrown","ছোঁড়া","থ্রো","থ্রু","থ্রোন","throwing","থ্রোয়িং","throws","থ্রোজ"],
+["understand","understood","understood","বোঝা","আন্ডারস্ট্যান্ড","আন্ডারস্টুড","আন্ডারস্টুড","understanding","আন্ডারস্ট্যান্ডিং","understands","আন্ডারস্ট্যান্ডস"],
+["wake","woke","woken","জেগে ওঠা","ওয়েক","ওক","ওকেন","waking","ওয়েকিং","wakes","ওয়েকস"],
+["wear","wore","worn","পরা","ওয়্যার","ওর","ওর্ন","wearing","ওয়্যারিং","wears","ওয়্যারস"],
+["win","won","won","জেতা","উইন","ওয়ন","ওয়ন","winning","উইনিং","wins","উইনস"],
+["write","wrote","written","লেখা","রাইট","রোট","রিটেন","writing","রাইটিং","writes","রাইটস"],
+["bear","bore","born","সহ্য করা / জন্ম দেওয়া","বেয়ার","বোর","বর্ন","bearing","বেয়ারিং","bears","বেয়ারস"],
+["bend","bent","bent","বাঁকানো","বেন্ড","বেন্ট","বেন্ট","bending","বেন্ডিং","bends","বেন্ডস"],
+["bet","bet","bet","বাজি ধরা","বেট","বেট","বেট","betting","বেটিং","bets","বেটস"],
+["bind","bound","bound","বাঁধা","বাইন্ড","বাউন্ড","বাউন্ড","binding","বাইন্ডিং","binds","বাইন্ডস"],
+["bite","bit","bitten","কামড়ানো","বাইট","বিট","বিটেন","biting","বাইটিং","bites","বাইটস"],
+["bleed","bled","bled","রক্তক্ষরণ হওয়া","ব্লিড","ব্লেড","ব্লেড","bleeding","ব্লিডিং","bleeds","ব্লিডস"],
+["blow","blew","blown","বাতাস বওয়া / ফুঁ দেওয়া","ব্লো","ব্লু","ব্লোন","blowing","ব্লোয়িং","blows","ব্লোজ"],
+["burn","burnt","burnt","পোড়া","বার্ন","বার্ন্ট","বার্ন্ট","burning","বার্নিং","burns","বার্নস"],
+["burst","burst","burst","ফেটে যাওয়া","বার্স্ট","বার্স্ট","বার্স্ট","bursting","বার্স্টিং","bursts","বার্স্টস"],
+["deal","dealt","dealt","মোকাবেলা করা","ডিল","ডেল্ট","ডেল্ট","dealing","ডিলিং","deals","ডিলস"],
+["dig","dug","dug","খোঁড়া","ডিগ","ডাগ","ডাগ","digging","ডিগিং","digs","ডিগস"],
+["dive","dove","dived","ডুব দেওয়া","ডাইভ","ডোভ","ডাইভড","diving","ডাইভিং","dives","ডাইভস"],
+["dream","dreamt","dreamt","স্বপ্ন দেখা","ড্রিম","ড্রেম্ট","ড্রেম্ট","dreaming","ড্রিমিং","dreams","ড্রিমস"],
+["feed","fed","fed","খাওয়ানো","ফিড","ফেড","ফেড","feeding","ফিডিং","feeds","ফিডস"],
+["fit","fit","fit","মানানসই হওয়া","ফিট","ফিট","ফিট","fitting","ফিটিং","fits","ফিটস"],
+["flee","fled","fled","পালানো","ফ্লি","ফ্লেড","ফ্লেড","fleeing","ফ্লিয়িং","flees","ফ্লিজ"],
+["grind","ground","ground","পেষা","গ্রাইন্ড","গ্রাউন্ড","গ্রাউন্ড","grinding","গ্রাইন্ডিং","grinds","গ্রাইন্ডস"],
+["hang","hung","hung","ঝুলানো","হ্যাং","হাং","হাং","hanging","হ্যাংগিং","hangs","হ্যাংস"],
+["lean","leant","leant","হেলান দেওয়া","লিন","লেন্ট","লেন্ট","leaning","লিনিং","leans","লিনস"],
+["leap","leapt","leapt","লাফ দেওয়া","লিপ","লেপ্ট","লেপ্ট","leaping","লিপিং","leaps","লিপস"],
+["light","lit","lit","আলো জ্বালানো","লাইট","লিট","লিট","lighting","লাইটিং","lights","লাইটস"],
+["mistake","mistook","mistaken","ভুল করা","মিসটেক","মিসটুক","মিসটেকেন","mistaking","মিসটেকিং","mistakes","মিসটেকস"],
+["overcome","overcame","overcome","কাটিয়ে ওঠা","ওভারকাম","ওভারকেইম","ওভারকাম","overcoming","ওভারকামিং","overcomes","ওভারকামজ"],
+["prove","proved","proven","প্রমাণ করা","প্রুভ","প্রুভড","প্রুভেন","proving","প্রুভিং","proves","প্রুভস"],
+["quit","quit","quit","ছেড়ে দেওয়া","কুইট","কুইট","কুইট","quitting","কুইটিং","quits","কুইটস"],
+["seek","sought","sought","খোঁজা","সিক","সট","সট","seeking","সিকিং","seeks","সিকস"],
+["shrink","shrank","shrunk","সংকুচিত হওয়া","শ্রিংক","শ্র্যাংক","শ্রাংক","shrinking","শ্রিংকিং","shrinks","শ্রিংকস"],
+["slide","slid","slid","পিছলানো","স্লাইড","স্লিড","স্লিড","sliding","স্লাইডিং","slides","স্লাইডস"],
+["spin","spun","spun","ঘোরা","স্পিন","স্পান","স্পান","spinning","স্পিনিং","spins","স্পিনস"],
+["spit","spat","spat","থুতু ফেলা","স্পিট","স্প্যাট","স্প্যাট","spitting","স্পিটিং","spits","স্পিটস"],
+["split","split","split","ভাগ করা","স্প্লিট","স্প্লিট","স্প্লিট","splitting","স্প্লিটিং","splits","স্প্লিটস"],
+["spread","spread","spread","ছড়ানো","স্প্রেড","স্প্রেড","স্প্রেড","spreading","স্প্রেডিং","spreads","স্প্রেডস"],
+["spring","sprang","sprung","লাফিয়ে ওঠা","স্প্রিং","স্প্র্যাং","স্প্রাং","springing","স্প্রিংগিং","springs","স্প্রিংস"],
+["stick","stuck","stuck","আটকানো","স্টিক","স্টাক","স্টাক","sticking","স্টিকিং","sticks","স্টিকস"],
+["sting","stung","stung","হুল ফোটানো","স্টিং","স্টাং","স্টাং","stinging","স্টিংগিং","stings","স্টিংস"],
+["stink","stank","stunk","দুর্গন্ধ হওয়া","স্টিংক","স্ট্যাংক","স্টাংক","stinking","স্টিংকিং","stinks","স্টিংকস"],
+["strike","struck","struck","আঘাত করা","স্ট্রাইক","স্ট্রাক","স্ট্রাক","striking","স্ট্রাইকিং","strikes","স্ট্রাইকস"],
+["swear","swore","sworn","শপথ করা","সোয়্যার","সোর","সর্ন","swearing","সোয়্যারিং","swears","সোয়্যারস"],
+["sweep","swept","swept","ঝাড়ু দেওয়া","সুইপ","সোয়েপ্ট","সোয়েপ্ট","sweeping","সুইপিং","sweeps","সুইপস"],
+["swing","swung","swung","দোলানো","সুইং","সোয়াং","সোয়াং","swinging","সুইংগিং","swings","সুইংস"],
+["weep","wept","wept","কাঁদা","উইপ","ওয়েপ্ট","ওয়েপ্ট","weeping","উইপিং","weeps","উইপস"],
+["wind","wound","wound","প্যাঁচানো","ওয়াইন্ড","ওয়াউন্ড","ওয়াউন্ড","winding","ওয়াইন্ডিং","winds","ওয়াইন্ডস"],
+["withdraw","withdrew","withdrawn","প্রত্যাহার করা","উইথড্র","উইথড্রু","উইথড্রন","withdrawing","উইথড্রয়িং","withdraws","উইথড্রজ"],
+["arise","arose","arisen","উৎপন্ন হওয়া","অ্যারাইজ","অ্যারোজ","অ্যারিজেন","arising","অ্যারাইজিং","arises","অ্যারাইজেজ"],
+["awake","awoke","awoken","জেগে ওঠা","অ্যাওয়েক","অ্যাওক","অ্যাওকেন","awaking","অ্যাওয়েকিং","awakes","অ্যাওয়েকস"],
+["beat","beat","beaten","মারা / হারানো","বিট","বিট","বিটেন","beating","বিটিং","beats","বিটস"],
+["bid","bid","bid","দর দেওয়া","বিড","বিড","বিড","bidding","বিডিং","bids","বিডস"],
+["breed","bred","bred","প্রজনন করা","ব্রিড","ব্রেড","ব্রেড","breeding","ব্রিডিং","breeds","ব্রিডস"],
+["broadcast","broadcast","broadcast","সম্প্রচার করা","ব্রডকাস্ট","ব্রডকাস্ট","ব্রডকাস্ট","broadcasting","ব্রডকাস্টিং","broadcasts","ব্রডকাস্টস"],
+["cling","clung","clung","আঁকড়ে ধরা","ক্লিং","ক্লাং","ক্লাং","clinging","ক্লিংগিং","clings","ক্লিংস"],
+["creep","crept","crept","হামাগুড়ি দেওয়া","ক্রিপ","ক্রেপ্ট","ক্রেপ্ট","creeping","ক্রিপিং","creeps","ক্রিপস"],
+["dwell","dwelt","dwelt","বসবাস করা","ডুয়েল","ডুয়েল্ট","ডুয়েল্ট","dwelling","ডুয়েলিং","dwells","ডুয়েলস"],
+["fling","flung","flung","ছুঁড়ে ফেলা","ফ্লিং","ফ্লাং","ফ্লাং","flinging","ফ্লিংগিং","flings","ফ্লিংস"],
+["forbid","forbade","forbidden","নিষেধ করা","ফরবিড","ফরবেড","ফরবিডেন","forbidding","ফরবিডিং","forbids","ফরবিডস"],
+["forsake","forsook","forsaken","পরিত্যাগ করা","ফরসেক","ফরসুক","ফরসেকেন","forsaking","ফরসেকিং","forsakes","ফরসেকস"],
+["kneel","knelt","knelt","হাঁটু গেড়ে বসা","নিল","নেল্ট","নেল্ট","kneeling","নিলিং","kneels","নিলস"],
+["learn","learnt","learnt","শেখা","লার্ন","লার্ন্ট","লার্ন্ট","learning","লার্নিং","learns","লার্নস"],
+["mow","mowed","mown","ঘাস কাটা","মো","মোড","মোন","mowing","মোয়িং","mows","মোজ"],
+["plead","pled","pled","আবেদন করা","প্লিড","প্লেড","প্লেড","pleading","প্লিডিং","pleads","প্লিডস"],
+["rid","rid","rid","মুক্ত করা","রিড","রিড","রিড","ridding","রিডিং","rids","রিডস"],
+["saw","sawed","sawn","করাত দিয়ে কাটা","স","সড","সন","sawing","সয়িং","saws","সজ"],
+["sew","sewed","sewn","সেলাই করা","সো","সোড","সোন","sewing","সোয়িং","sews","সোজ"],
+["shear","sheared","shorn","লোম কাটা","শিয়ার","শিয়ার্ড","শর্ন","shearing","শিয়ারিং","shears","শিয়ারস"],
+["shed","shed","shed","ঝরানো","শেড","শেড","শেড","shedding","শেডিং","sheds","শেডস"],
+["slay","slew","slain","হত্যা করা","স্লে","স্লু","স্লেইন","slaying","স্লেয়িং","slays","স্লেজ"],
+["sling","slung","slung","ছুঁড়ে মারা","স্লিং","স্লাং","স্লাং","slinging","স্লিংগিং","slings","স্লিংস"],
+["slit","slit","slit","চিরে ফেলা","স্লিট","স্লিট","স্লিট","slitting","স্লিটিং","slits","স্লিটস"],
+["smell","smelt","smelt","গন্ধ পাওয়া","স্মেল","স্মেল্ট","স্মেল্ট","smelling","স্মেলিং","smells","স্মেলস"],
+["sneak","snuck","snuck","চুপিসারে যাওয়া","স্নিক","স্নাক","স্নাক","sneaking","স্নিকিং","sneaks","স্নিকস"],
+["sow","sowed","sown","বীজ বোনা","সো","সোড","সোন","sowing","সোয়িং","sows","সোজ"],
+["speed","sped","sped","দ্রুত চলা","স্পিড","স্পেড","স্পেড","speeding","স্পিডিং","speeds","স্পিডস"],
+["spell","spelt","spelt","বানান করা","স্পেল","স্পেল্ট","স্পেল্ট","spelling","স্পেলিং","spells","স্পেলস"],
+["spill","spilt","spilt","ছলকে পড়া","স্পিল","স্পিল্ট","স্পিল্ট","spilling","স্পিলিং","spills","স্পিলস"],
+["spoil","spoilt","spoilt","নষ্ট করা","স্পয়েল","স্পয়েল্ট","স্পয়েল্ট","spoiling","স্পয়েলিং","spoils","স্পয়েলস"],
+["stride","strode","stridden","লম্বা পা ফেলে হাঁটা","স্ট্রাইড","স্ট্রোড","স্ট্রিডেন","striding","স্ট্রাইডিং","strides","স্ট্রাইডস"],
+["string","strung","strung","সুতা দিয়ে বাঁধা","স্ট্রিং","স্ট্রাং","স্ট্রাং","stringing","স্ট্রিংগিং","strings","স্ট্রিংস"],
+["strive","strove","striven","চেষ্টা করা","স্ট্রাইভ","স্ট্রোভ","স্ট্রিভেন","striving","স্ট্রাইভিং","strives","স্ট্রাইভস"],
+["swell","swelled","swollen","ফুলে ওঠা","সোয়েল","সোয়েল্ড","সোয়োলেন","swelling","সোয়েলিং","swells","সোয়েলস"],
+["thrust","thrust","thrust","ধাক্কা দেওয়া","থ্রাস্ট","থ্রাস্ট","থ্রাস্ট","thrusting","থ্রাস্টিং","thrusts","থ্রাস্টস"],
+["tread","trod","trodden","হাঁটা / পদদলিত করা","ট্রেড","ট্রড","ট্রডেন","treading","ট্রেডিং","treads","ট্রেডস"],
+["wed","wed","wed","বিয়ে করা","ওয়েড","ওয়েড","ওয়েড","wedding","ওয়েডিং","weds","ওয়েডস"],
+["wet","wet","wet","ভেজানো","ওয়েট","ওয়েট","ওয়েট","wetting","ওয়েটিং","wets","ওয়েটস"],
+["withhold","withheld","withheld","আটকে রাখা","উইথহোল্ড","উইথহেল্ড","উইথহেল্ড","withholding","উইথহোল্ডিং","withholds","উইথহোল্ডস"],
+["withstand","withstood","withstood","প্রতিরোধ করা","উইথস্ট্যান্ড","উইথস্টুড","উইথস্টুড","withstanding","উইথস্ট্যান্ডিং","withstands","উইথস্ট্যান্ডস"],
+["wring","wrung","wrung","নিংড়ানো","রিং","রাং","রাং","wringing","রিংগিং","wrings","রিংস"],
+["undergo","underwent","undergone","সহ্য করা","আন্ডারগো","আন্ডারওয়েন্ট","আন্ডারগন","undergoing","আন্ডারগোয়িং","undergoes","আন্ডারগোজ"],
+["undertake","undertook","undertaken","দায়িত্ব নেওয়া","আন্ডারটেক","আন্ডারটুক","আন্ডারটেকেন","undertaking","আন্ডারটেকিং","undertakes","আন্ডারটেকস"],
+["undo","undid","undone","পূর্বাবস্থায় ফেরানো","আনডু","আনডিড","আনডান","undoing","আনডুয়িং","undoes","আনডাজ"],
+["upset","upset","upset","মন খারাপ করা","আপসেট","আপসেট","আপসেট","upsetting","আপসেটিং","upsets","আপসেটস"],
+["overtake","overtook","overtaken","ছাড়িয়ে যাওয়া","ওভারটেক","ওভারটুক","ওভারটেকেন","overtaking","ওভারটেকিং","overtakes","ওভারটেকস"],
+["overthrow","overthrew","overthrown","উৎখাত করা","ওভারথ্রো","ওভারথ্রু","ওভারথ্রোন","overthrowing","ওভারথ্রোয়িং","overthrows","ওভারথ্রোজ"],
+["oversee","oversaw","overseen","তত্ত্বাবধান করা","ওভারসি","ওভারস","ওভারসিন","overseeing","ওভারসিয়িং","oversees","ওভারসিজ"],
+["overhear","overheard","overheard","আড়ি পেতে শোনা","ওভারহিয়ার","ওভারহার্ড","ওভারহার্ড","overhearing","ওভারহিয়ারিং","overhears","ওভারহিয়ারস"],
+["rebuild","rebuilt","rebuilt","পুনর্নির্মাণ করা","রিবিল্ড","রিবিল্ট","রিবিল্ট","rebuilding","রিবিল্ডিং","rebuilds","রিবিল্ডস"],
+["repay","repaid","repaid","পরিশোধ করা","রিপে","রিপেইড","রিপেইড","repaying","রিপেয়িং","repays","রিপেজ"],
+["rewrite","rewrote","rewritten","নতুন করে লেখা","রিরাইট","রিরোট","রিরিটেন","rewriting","রিরাইটিং","rewrites","রিরাইটস"],
+["foresee","foresaw","foreseen","পূর্বাভাস দেওয়া","ফোরসি","ফোরস","ফোরসিন","foreseeing","ফোরসিয়িং","foresees","ফোরসিজ"],
+["foretell","foretold","foretold","ভবিষ্যদ্বাণী করা","ফোরটেল","ফোরটোল্ড","ফোরটোল্ড","foretelling","ফোরটেলিং","foretells","ফোরটেলস"]
+].map(a=>({v1:a[0],v2:a[1],v3:a[2],meaning:a[3],p1:a[4],p2:a[5],p3:a[6],ing:a[7],ping:a[8],s:a[9],ps:a[10]}));
+
+/* ---------------------------------------------------------
+   REGULAR VERB CONJUGATION + APPROXIMATE PRONUNCIATION
+--------------------------------------------------------- */
+function isCVC(word){
+  if(word.length<3) return false;
+  const vowels="aeiou";
+  const last=word[word.length-1], mid=word[word.length-2], first=word[word.length-3];
+  if(vowels.includes(last)) return false;
+  if(!vowels.includes(mid)) return false;
+  if(vowels.includes(first)) return false;
+  if("wxy".includes(last)) return false;
+  return true;
+}
+
+function conjugateRegular(baseIn){
+  const base = baseIn.trim().toLowerCase();
+  let past;
+  if(/[^aeiou]e$/.test(base)) past = base+"d";
+  else if(/[^aeiou]y$/.test(base)) past = base.slice(0,-1)+"ied";
+  else if(isCVC(base)) past = base+base.slice(-1)+"ed";
+  else past = base+"ed";
+
+  let ing;
+  if(/ie$/.test(base)) ing = base.slice(0,-2)+"ying";
+  else if(/[^aeiou]e$/.test(base) && !/(ee|oe|ye)$/.test(base)) ing = base.slice(0,-1)+"ing";
+  else if(isCVC(base)) ing = base+base.slice(-1)+"ing";
+  else ing = base+"ing";
+
+  let sform;
+  if(/([sxz]|ch|sh)$/.test(base)) sform = base+"es";
+  else if(/[^aeiou]y$/.test(base)) sform = base.slice(0,-1)+"ies";
+  else if(/[^aeiou]o$/.test(base)) sform = base+"es";
+  else sform = base+"s";
+
+  return {v1:base, v2:past, v3:past, ing:ing, s:sform};
+}
+
+const PHON_MAP = [
+  ["tion","শন"],["sion","শন"],["ough","অফ"],["augh","অ"],
+  ["th","থ"],["sh","শ"],["ch","চ"],["ph","ফ"],["wh","হো"],["ck","ক"],
+  ["qu","কু"],["ng","ং"],["oo","উ"],["ee","ঈ"],["ea","ঈ"],["ai","এই"],
+  ["ay","এই"],["oy","অয়"],["oi","অয়"],["ou","আউ"],["ow","আও"],
+  ["a","আ"],["e","ই"],["i","ই"],["o","ও"],["u","আ"],
+  ["b","ব"],["c","ক"],["d","ড"],["f","ফ"],["g","গ"],["h","হ"],
+  ["j","জ"],["k","ক"],["l","ল"],["m","ম"],["n","ন"],["p","প"],
+  ["r","র"],["s","স"],["t","ট"],["v","ভ"],["w","ও"],["x","ক্স"],
+  ["y","ই"],["z","জ"]
+];
+function approxPron(wordIn){
+  const word = wordIn.toLowerCase();
+  let result="", i=0;
+  while(i<word.length){
+    let matched=false;
+    for(const [pat,rep] of PHON_MAP){
+      if(word.startsWith(pat,i)){ result+=rep; i+=pat.length; matched=true; break; }
+    }
+    if(!matched) i++;
+  }
+  return result || word;
+}
+
+/* ---------------------------------------------------------
+   VERB LOOKUP (Bengali meaning OR English word)
+--------------------------------------------------------- */
+function findByEnglish(word){
+  const w = word.trim().toLowerCase();
+  return IRREGULAR_VERBS.find(v =>
+    v.v1===w || v.v2.includes(w) || v.v3.includes(w) || v.ing===w || v.s===w
+  );
+}
+function findByMeaning(text){
+  const t = text.trim();
+  return IRREGULAR_VERBS.find(v =>
+    v.meaning.split("/").some(part => {
+      const p = part.trim();
+      return p===t || p.includes(t) || t.includes(p);
+    })
+  );
+}
+function containsBangla(text){
+  return /[\u0980-\u09FF]/.test(text);
+}
+
+function renderVerbCard(entry, isRegular){
+  const tag = isRegular ? '<span class="tag-regular">Regular</span>' : '<span class="tag-irregular">Irregular</span>';
+  const meaningLine = entry.meaning ? `<div class="meaning">অর্থঃ ${entry.meaning}</div>` : '';
+  return `
+    <div class="verb-head">
+      <div class="en-word">${entry.v1}</div>
+      ${tag}
+    </div>
+    ${meaningLine}
+    <table class="verb-table">
+      <tr><td>Verb¹ (present)</td><td><span class="form">${entry.v1}</span><span class="pron">${entry.p1||approxPron(entry.v1)}</span></td></tr>
+      <tr><td>Verb² (past)</td><td><span class="form">${entry.v2}</span><span class="pron">${entry.p2||approxPron(entry.v2)}</span></td></tr>
+      <tr><td>Verb³ (past participle)</td><td><span class="form">${entry.v3}</span><span class="pron">${entry.p3||approxPron(entry.v3)}</span></td></tr>
+      <tr><td>Verb + ing</td><td><span class="form">${entry.ing}</span><span class="pron">${entry.ping||approxPron(entry.ing)}</span></td></tr>
+      <tr><td>Verb + s/es</td><td><span class="form">${entry.s}</span><span class="pron">${entry.ps||approxPron(entry.s)}</span></td></tr>
+    </table>`;
+}
+
+async function lookupVerb(){
+  const raw = document.getElementById('verbInput').value.trim();
+  const box = document.getElementById('verbResult');
+  if(!raw){
+    box.className='result error';
+    box.textContent='আগে একটি verb বা বাংলা অর্থ লিখুন।';
+    return;
+  }
+  box.className='result loading';
+  box.textContent='খোঁজা হচ্ছে';
+
+  try{
+    if(containsBangla(raw)){
+      // 1) direct meaning match in our DB
+      let found = findByMeaning(raw);
+      if(found){
+        box.className='result';
+        box.innerHTML = renderVerbCard(found, false);
+        return;
+      }
+      // 2) translate bangla -> english to guess base verb
+      const guess = await translateText(raw, 'bn', 'en');
+      const firstWord = guess.trim().split(/\s+/)[0].replace(/[^a-zA-Z]/g,'').toLowerCase();
+      if(!firstWord){
+        box.className='result error';
+        box.textContent='দুঃখিত, এই অর্থের কোনো verb খুঁজে পাওয়া যায়নি।';
+        return;
+      }
+      found = findByEnglish(firstWord);
+      if(found){
+        box.className='result';
+        box.innerHTML = `<div class="hint" style="margin-bottom:8px">অনুমানকৃত verb: <b>${firstWord}</b></div>` + renderVerbCard(found, false);
+      }else{
+        const reg = conjugateRegular(firstWord);
+        reg.meaning = raw;
+        box.className='result';
+        box.innerHTML = `<div class="hint" style="margin-bottom:8px">অনুমানকৃত verb: <b>${firstWord}</b> (regular verb হিসেবে ধরা হয়েছে)</div>` + renderVerbCard(reg, true);
+      }
+    }else{
+      // English input
+      const found = findByEnglish(raw);
+      if(found){
+        box.className='result';
+        box.innerHTML = renderVerbCard(found, false);
+      }else{
+        const reg = conjugateRegular(raw);
+        box.className='result';
+        box.innerHTML = renderVerbCard(reg, true);
+      }
+    }
+  }catch(e){
+    box.className='result error';
+    box.textContent='কিছু একটা সমস্যা হয়েছে। ইন্টারনেট সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।';
+  }
+}
+
+/* ---------------------------------------------------------
+   SENTENCE STRUCTURE ANALYZER (rule-based, simplified)
+--------------------------------------------------------- */
+const PRONOUNS = {i:"আমি",you:"তুমি/আপনি",he:"সে (পুরুষ)",she:"সে (নারী)",it:"এটা",we:"আমরা",they:"তারা",
+  me:"আমাকে",him:"তাকে",her:"তাকে/তার",us:"আমাদের",them:"তাদের",
+  my:"আমার",your:"তোমার/আপনার",his:"তার",its:"এটার",our:"আমাদের",their:"তাদের",
+  this:"এটা",that:"ওটা",these:"এইগুলো",those:"ওইগুলো",
+  who:"কে",what:"কী",which:"কোনটা",whom:"কাকে",whose:"কার"};
+
+const AUX = {am:"বর্তমান কাল সূচক",is:"বর্তমান কাল সূচক",are:"বর্তমান কাল সূচক",
+  was:"অতীত কাল সূচক",were:"অতীত কাল সূচক",been:"সম্পন্ন রূপ",being:"চলমান রূপ",
+  do:"সহায়ক ক্রিয়া",does:"সহায়ক ক্রিয়া",did:"সহায়ক ক্রিয়া",
+  have:"সম্পন্ন কাল সূচক",has:"সম্পন্ন কাল সূচক",had:"পুরাঘটিত অতীত সূচক",
+  will:"ভবিষ্যৎ কাল সূচক",shall:"ভবিষ্যৎ কাল সূচক",would:"শর্তসাপেক্ষ",
+  should:"উচিত/পরামর্শ",could:"সামর্থ্য (অতীত)",can:"সামর্থ্য (বর্তমান)",
+  may:"সম্ভাবনা/অনুমতি",might:"ক্ষীণ সম্ভাবনা",must:"অবশ্যকর্তব্য"};
+
+const ARTICLES = {a:"একটি (অনির্দিষ্ট)",an:"একটি (অনির্দিষ্ট)",the:"সেই/ঐ (নির্দিষ্ট)"};
+
+const PREPOSITIONS = {in:"ভিতরে",on:"উপরে",at:"এ/তে",to:"দিকে/প্রতি",from:"থেকে",with:"সাথে",
+  by:"দ্বারা",for:"জন্য",of:"এর",about:"সম্পর্কে",into:"ভিতরে",under:"নিচে",
+  over:"উপর দিয়ে",between:"মাঝে",before:"আগে",after:"পরে",during:"সময়ে",
+  without:"ছাড়া",against:"বিরুদ্ধে",through:"মধ্য দিয়ে",since:"থেকে (সময়)",until:"পর্যন্ত"};
+
+const CONJUNCTIONS = {and:"এবং",but:"কিন্তু",or:"অথবা",because:"কারণ",so:"তাই",
+  if:"যদি",although:"যদিও",while:"যখন",when:"যখন",unless:"যদি না"};
+
+const ADJ_WORDS = new Set(["good","bad","big","small","happy","sad","beautiful","nice","hot","cold",
+  "new","old","young","fast","slow","easy","hard","rich","poor","tall","short","strong","weak",
+  "kind","smart","clever","busy","tired","angry","hungry","thirsty","clean","dirty","cheap","expensive"]);
+
+function classifyWord(wordRaw){
+  const w = wordRaw.toLowerCase();
+  if(PRONOUNS[w]) return {pos:"pronoun", label:"সর্বনাম", meaning:PRONOUNS[w]};
+  if(AUX[w]) return {pos:"aux", label:"সহায়ক/কাল-নির্দেশক", meaning:AUX[w]};
+  if(ARTICLES[w]) return {pos:"art", label:"আর্টিকেল", meaning:ARTICLES[w]};
+  if(PREPOSITIONS[w]) return {pos:"prep", label:"পদান্বয়ী অব্যয়", meaning:PREPOSITIONS[w]};
+  if(CONJUNCTIONS[w]) return {pos:"conj", label:"সংযোজক", meaning:CONJUNCTIONS[w]};
+
+  const verbHit = findByEnglish(w);
+  if(verbHit){
+    let formNote = "মূল/present";
+    if(w===verbHit.v2) formNote="past";
+    else if(w===verbHit.v3 && verbHit.v3!==verbHit.v2) formNote="past participle";
+    else if(w===verbHit.ing) formNote="continuous (ing)";
+    else if(w===verbHit.s) formNote="present (s/es)";
+    return {pos:"verb", label:"ক্রিয়া", meaning:verbHit.meaning, formNote};
+  }
+  if(/ing$/.test(w) && w.length>4) return {pos:"verb", label:"ক্রিয়া", meaning:"(চলমান রূপ)", formNote:"continuous (ing)"};
+  if(/ed$/.test(w) && w.length>3) return {pos:"verb", label:"ক্রিয়া", meaning:"(অতীত রূপ)", formNote:"past"};
+  if(ADJ_WORDS.has(w)) return {pos:"adj", label:"বিশেষণ", meaning:""};
+  if(/ly$/.test(w) && w.length>3) return {pos:"adv", label:"ক্রিয়া-বিশেষণ", meaning:""};
+  if(/(ful|ous|ive|al|able|ible|ic)$/.test(w) && w.length>4) return {pos:"adj", label:"বিশেষণ", meaning:""};
+  return {pos:"noun", label:"বিশেষ্য/অন্যান্য", meaning:""};
+}
+
+function detectTense(tags){
+  const words = tags.map(t=>t.word.toLowerCase());
+  const set = new Set(words);
+  const hasIngVerb = tags.some(t=>t.pos==="verb" && t.formNote==="continuous (ing)");
+  const hasPPVerb = tags.some(t=>t.pos==="verb" && t.formNote==="past participle");
+  const hasPastVerb = tags.some(t=>t.pos==="verb" && t.formNote==="past");
+  const hasSVerb = tags.some(t=>t.pos==="verb" && t.formNote==="present (s/es)");
+  const hasBaseVerb = tags.some(t=>t.pos==="verb" && t.formNote==="মূল/present");
+
+  if((set.has("will")||set.has("shall")) && hasBaseVerb) return "ভবিষ্যৎ কাল (Future)";
+  if((set.has("have")||set.has("has")) && hasPPVerb && hasIngVerb) return "Present Perfect Continuous";
+  if(set.has("had") && hasPPVerb && hasIngVerb) return "Past Perfect Continuous";
+  if((set.has("have")||set.has("has")) && hasPPVerb) return "বর্তমান পুরাঘটিত কাল (Present Perfect)";
+  if(set.has("had") && hasPPVerb) return "অতীত পুরাঘটিত কাল (Past Perfect)";
+  if((set.has("am")||set.has("is")||set.has("are")) && hasIngVerb) return "চলমান বর্তমান কাল (Present Continuous)";
+  if((set.has("was")||set.has("were")) && hasIngVerb) return "চলমান অতীত কাল (Past Continuous)";
+  if(set.has("did")) return "অতীত কাল (Past Simple - প্রশ্ন/নেতিবাচক)";
+  if(set.has("do")||set.has("does")) return "সাধারণ বর্তমান কাল (Present Simple - প্রশ্ন/নেতিবাচক)";
+  if(hasPastVerb) return "সাধারণ অতীত কাল (Past Simple)";
+  if(hasSVerb || hasBaseVerb) return "সাধারণ বর্তমান কাল (Present Simple)";
+  return "নির্ধারণ করা যায়নি";
+}
+
+function analyzeSentence(sentence){
+  const cleaned = sentence.replace(/[.?!,;:]/g,"").trim();
+  const rawWords = cleaned.split(/\s+/).filter(Boolean);
+  const tags = rawWords.map(w => Object.assign({word:w}, classifyWord(w)));
+
+  const tense = detectTense(tags);
+
+  // find main verb index (first tag with pos verb, prefer non-aux main verb after aux chain)
+  let verbIdx = tags.findIndex(t=>t.pos==="verb");
+  let subjectWords = verbIdx>0 ? tags.slice(0,verbIdx) : [];
+  // include leading aux in verb phrase
+  let verbStart = verbIdx;
+  while(verbStart>0 && tags[verbStart-1].pos==="aux"){ verbStart--; }
+  subjectWords = tags.slice(0, verbStart);
+  let verbEnd = verbIdx;
+  while(verbEnd+1<tags.length && tags[verbEnd+1].pos==="aux"){ verbEnd++; }
+  const verbPhrase = tags.slice(verbStart, verbEnd+1).map(t=>t.word).join(" ");
+  const objectWords = tags.slice(verbEnd+1);
+
+  return {tags, tense, verbIdx,
+    subjectText: subjectWords.map(t=>t.word).join(" ") || "(পাওয়া যায়নি)",
+    verbText: verbPhrase || "(পাওয়া যায়নি)",
+    objectText: objectWords.map(t=>t.word).join(" ") || "—"};
+}
+
+function analyzeAndRender(){
+  const input = document.getElementById('structInput').value.trim();
+  const box = document.getElementById('structResult');
+  if(!input){
+    box.className='result error';
+    box.textContent='আগে একটি ইংরেজি বাক্য লিখুন।';
+    return;
+  }
+  const r = analyzeSentence(input);
+
+  const chips = r.tags.map(t=>{
+    const meaningLine = t.meaning ? `<div class="meaning">${t.meaning}</div>` : (t.formNote ? `<div class="meaning">${t.formNote}</div>` : '');
+    return `<div class="word-chip">
+      <div class="w en">${t.word}</div>
+      <div class="pos pos-${t.pos}">${t.label}</div>
+      ${meaningLine}
+    </div>`;
+  }).join("");
+
+  box.className='result';
+  box.innerHTML = `
+    <div class="wordwrap">${chips}</div>
+    <div style="margin:14px 0 6px;"><span class="tense-badge">কালঃ ${r.tense}</span></div>
+    <div class="structure-line"><span>Subject (কর্তা)</span><b>${r.subjectText}</b></div>
+    <div class="structure-line"><span>Verb (ক্রিয়া)</span><b>${r.verbText}</b></div>
+    <div class="structure-line"><span>Object / বাকি অংশ</span><b>${r.objectText}</b></div>
+  `;
+}
+
+/* ---------------------------------------------------------
+   PWA: service worker registration + install prompt
+--------------------------------------------------------- */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("service-worker.js").catch(() => {
+      // Silently ignore — app still works online without offline caching.
+    });
+  });
+}
+
+let deferredInstallPrompt = null;
+const installBtn = document.getElementById("installBtn");
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  if (installBtn) installBtn.hidden = false;
+});
+
+if (installBtn) {
+  installBtn.addEventListener("click", async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    installBtn.hidden = true;
+  });
+}
+
+window.addEventListener("appinstalled", () => {
+  if (installBtn) installBtn.hidden = true;
+  deferredInstallPrompt = null;
+});
+</script>
+</body>
+</html>
